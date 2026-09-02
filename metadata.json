@@ -1,0 +1,6 @@
+{
+  "name": "uSafe - Zero-Knowledge Cloud & Sovereign OS",
+  "description": "Universal commercial portal and sovereign web platform for uSafe, featuring Amber OS hardware security, zero-knowledge cloud apps, OpenClaw mesh, and Aura AI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
