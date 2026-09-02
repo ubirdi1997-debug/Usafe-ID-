@@ -16,6 +16,7 @@ interface FooterProps {
   onRegionChange: (region: Region) => void;
   onOpenPasskeyModal: () => void;
   onOpenAppDrawer: () => void;
+  onNavigateView?: (view: 'landing' | 'dashboard' | 'admin' | 'api' | 'install') => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
@@ -23,6 +24,7 @@ export const Footer: React.FC<FooterProps> = ({
   onRegionChange,
   onOpenPasskeyModal,
   onOpenAppDrawer,
+  onNavigateView,
 }) => {
   const activeRegionConfig = REGIONS[currentRegion];
 
@@ -112,6 +114,15 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
+                <button
+                  onClick={() => onNavigateView?.('install')}
+                  className="text-left text-[#DDA15E] font-bold hover:underline flex items-center gap-1"
+                >
+                  <span>AmberOS 17 Dedicated Flash & DSU</span>
+                  <ChevronRight className="w-3 h-3" />
+                </button>
+              </li>
+              <li>
                 <a href="#amber-os" className="hover:text-[#F4F4F5] transition-colors">
                   Android 17 Amber Kernel
                 </a>
@@ -142,9 +153,25 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Col 3: Authentication & Developers */}
           <div className="space-y-3">
             <h4 className="font-mono text-xs font-semibold text-[#F4F4F5] uppercase tracking-wider">
-              Identity & SSO
+              Control & Developers
             </h4>
             <ul className="space-y-2 text-xs">
+              <li>
+                <button
+                  onClick={() => onNavigateView?.('admin')}
+                  className="hover:text-[#DDA15E] transition-colors text-left font-bold text-[#DDA15E]"
+                >
+                  Admin Control Plane (admin.usafe.*)
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onNavigateView?.('api')}
+                  className="hover:text-[#52B788] transition-colors text-left font-bold text-[#52B788]"
+                >
+                  REST / WSS API Explorer (api.usafe.*)
+                </button>
+              </li>
               <li>
                 <button onClick={onOpenPasskeyModal} className="hover:text-[#DDA15E] transition-colors text-left">
                   uAuth FIDO2 SSO (auth.usafe.*)
@@ -156,19 +183,10 @@ export const Footer: React.FC<FooterProps> = ({
                 </button>
               </li>
               <li>
-                <span className="text-[#71717A] cursor-not-allowed">
-                  Zero-Knowledge Whitepaper (PDF)
-                </span>
-              </li>
-              <li>
-                <span className="text-[#71717A] cursor-not-allowed">
-                  Reproducible Build Hashes
-                </span>
-              </li>
-              <li>
-                <span className="text-[#71717A] cursor-not-allowed">
-                  Master Ed25519 PKI Ledger
-                </span>
+                <a href="/updates.html" className="text-[#DDA15E] hover:underline flex items-center gap-1">
+                  <span>System Updates & Changelog</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
               </li>
             </ul>
           </div>

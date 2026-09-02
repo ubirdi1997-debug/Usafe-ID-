@@ -2,6 +2,8 @@ import { Region } from './lib/domains';
 
 export type TierType = 'free' | 'amber_early' | 'pro' | 'enterprise';
 
+export type AdminRole = 'SuperAdmin' | 'MeshOperator' | 'SecurityAuditor' | 'ContentManager';
+
 export interface UserProfile {
   handle: string; // e.g., "alex.vance@amber.id"
   displayName: string;
@@ -59,7 +61,83 @@ export interface MeshNode {
   ipMask: string;
   latencyMs: number;
   hops: number;
-  status: 'active' | 'synced' | 'routing';
+  status: 'active' | 'synced' | 'routing' | 'draining' | 'isolated';
   bandwidth: string;
   ed25519Key: string;
+  asn: string;
+  activeRelays: number;
+  uptimePercent: number;
 }
+
+export interface CrashEvent {
+  id: string;
+  timestamp: string;
+  sourceModule: 'AmberOS-Kernel' | 'Amber-Pico' | 'uChat-Core' | 'Kite-WASM' | 'uWorkspace' | 'OpenClaw-Relay';
+  faultType: string;
+  sanitizedStack: string;
+  enclaveIsolationTag: string;
+  memoryDumpState: string;
+  severity: 'critical' | 'warning' | 'info';
+  status: 'isolated' | 'triaged' | 'resolved';
+}
+
+export interface ApiEndpointSpec {
+  id: string;
+  method: 'GET' | 'POST' | 'WSS';
+  path: string;
+  subdomain: string;
+  title: string;
+  summary: string;
+  requestHeaders: Record<string, string>;
+  requestBodySample: string;
+  responseStatus: number;
+  responseSample: string;
+}
+
+export interface ChangelogSection {
+  category: string;
+  items: string[];
+}
+
+export interface ChangelogRelease {
+  version: string;
+  releaseName: string;
+  date: string;
+  status: 'PRODUCTION' | 'STABLE' | 'LTS' | 'HOTFIX' | 'BETA';
+  buildHash: string;
+  signedBy: string;
+  summary: string;
+  tags: string[];
+  metrics?: {
+    activeNodes?: number | string;
+    verifiedPasskeys?: number | string;
+    piiScrubbingRate?: string;
+    averageLatency?: string;
+    passkeyAuthTime?: string;
+    supportedEnclaves?: number;
+    currencyProfiles?: number;
+    p2pTunnelSpeed?: string;
+    globalEgressHops?: string;
+    meshBandwidth?: string;
+    modelContext?: string;
+    telemetryCollected?: string;
+    e2eeDocsLatency?: string;
+    driveChunkSize?: string;
+    mailEncryption?: string;
+    appsDeployed?: number;
+    enclaveBootTime?: string;
+    ramFootprint?: string;
+    certifiedSecurity?: string;
+    kernelVersion?: string;
+  };
+  sections: ChangelogSection[];
+}
+
+export interface ChangelogDocument {
+  project: string;
+  repository: string;
+  rootEnclavePki: string;
+  lastSyncedAt: string;
+  releases: ChangelogRelease[];
+}
+

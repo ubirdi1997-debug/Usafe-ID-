@@ -18,8 +18,8 @@ interface NavbarProps {
   onRegionChange: (region: Region) => void;
   onOpenPasskeyModal: () => void;
   onOpenAppDrawer: () => void;
-  activeView: 'landing' | 'dashboard';
-  onToggleView: (view: 'landing' | 'dashboard') => void;
+  activeView: 'landing' | 'dashboard' | 'admin' | 'api' | 'install';
+  onToggleView: (view: 'landing' | 'dashboard' | 'admin' | 'api' | 'install') => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -44,7 +44,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     { name: 'Aura AI', href: '#aura-ai' },
     { name: 'OpenClaw Mesh', href: '#openclaw' },
     { name: 'Pricing', href: '#pricing' },
-    { name: 'Developers', href: '#developers' },
   ];
 
   return (
@@ -62,16 +61,51 @@ export const Navbar: React.FC<NavbarProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* View Switcher Bar */}
+        <div className="flex items-center gap-2 font-mono text-[11px]">
           <button
-            onClick={() => onToggleView(activeView === 'landing' ? 'dashboard' : 'landing')}
-            className="text-[11px] text-[#DDA15E] hover:underline flex items-center gap-1 font-mono transition-colors"
+            onClick={() => onToggleView('landing')}
+            className={`px-2 py-0.5 rounded transition-colors ${
+              activeView === 'landing' ? 'text-[#DDA15E] font-bold bg-[#181A22]' : 'text-[#A1A1AA] hover:text-[#F4F4F5]'
+            }`}
           >
-            {activeView === 'landing' ? (
-              <>Switch to account.usafe.{currentRegion} View <ChevronRight className="w-3 h-3" /></>
-            ) : (
-              <>Back to Commercial Showcase <ChevronRight className="w-3 h-3" /></>
-            )}
+            Showcase
+          </button>
+          <span className="text-[#71717A]">|</span>
+          <button
+            onClick={() => onToggleView('dashboard')}
+            className={`px-2 py-0.5 rounded transition-colors ${
+              activeView === 'dashboard' ? 'text-[#DDA15E] font-bold bg-[#181A22]' : 'text-[#A1A1AA] hover:text-[#F4F4F5]'
+            }`}
+          >
+            Account (Portal)
+          </button>
+          <span className="text-[#71717A]">|</span>
+          <button
+            onClick={() => onToggleView('admin')}
+            className={`px-2 py-0.5 rounded transition-colors ${
+              activeView === 'admin' ? 'text-[#DDA15E] font-bold bg-[#181A22]' : 'text-[#A1A1AA] hover:text-[#F4F4F5]'
+            }`}
+          >
+            Admin (Control Plane)
+          </button>
+          <span className="text-[#71717A]">|</span>
+          <button
+            onClick={() => onToggleView('api')}
+            className={`px-2 py-0.5 rounded transition-colors ${
+              activeView === 'api' ? 'text-[#52B788] font-bold bg-[#181A22]' : 'text-[#A1A1AA] hover:text-[#F4F4F5]'
+            }`}
+          >
+            APIs / SSO
+          </button>
+          <span className="text-[#71717A]">|</span>
+          <button
+            onClick={() => onToggleView('install')}
+            className={`px-2 py-0.5 rounded transition-colors flex items-center gap-1 ${
+              activeView === 'install' ? 'text-[#DDA15E] font-bold bg-[#181A22]' : 'text-[#A1A1AA] hover:text-[#F4F4F5]'
+            }`}
+          >
+            <span>Install / DSU</span>
           </button>
         </div>
       </div>

@@ -14,6 +14,9 @@ import { OpenClawMesh } from './components/OpenClawMesh';
 import { AuraChatbot } from './components/AuraChatbot';
 import { Pricing } from './components/Pricing';
 import { DashboardView } from './components/DashboardView';
+import { AdminConsole } from './components/AdminConsole';
+import { ApiExplorer } from './components/ApiExplorer';
+import { AmberInstallRoutes } from './components/AmberInstallRoutes';
 import { AppDrawer } from './components/AppDrawer';
 import { PasskeyModal } from './components/PasskeyModal';
 import { AppModalPreview } from './components/AppModalPreview';
@@ -23,7 +26,7 @@ import { CheckCircle2, Sparkles, Shield } from 'lucide-react';
 
 export default function App() {
   const [currentRegion, setCurrentRegion] = useState<Region>('in');
-  const [activeView, setActiveView] = useState<'landing' | 'dashboard'>('landing');
+  const [activeView, setActiveView] = useState<'landing' | 'dashboard' | 'admin' | 'api' | 'install'>('landing');
   const [isAppDrawerOpen, setIsAppDrawerOpen] = useState(false);
   const [isPasskeyModalOpen, setIsPasskeyModalOpen] = useState(false);
   const [isQRPairingModalOpen, setIsQRPairingModalOpen] = useState(false);
@@ -91,7 +94,7 @@ export default function App() {
 
       {/* Main View Router */}
       <main className="flex-1">
-        {activeView === 'landing' ? (
+        {activeView === 'landing' && (
           <>
             {/* Section 3.B: Hero Section with Live Attestation Terminal */}
             <Hero
@@ -129,6 +132,16 @@ export default function App() {
               <AuraChatbot currentRegion={currentRegion} />
             </div>
 
+            {/* AmberOS Multi-Route Installation & Launcher Module */}
+            <div id="amber-install">
+              <AmberInstallRoutes
+                currentRegion={currentRegion}
+                onRegionChange={handleRegionChange}
+                onOpenPasskeyModal={handleOpenSignIn}
+                onOpenQRPairing={() => setIsQRPairingModalOpen(true)}
+              />
+            </div>
+
             {/* Section 5: Revised Comprehensive 4-Tier Pricing Matrix */}
             <Pricing
               currentRegion={currentRegion}
@@ -137,7 +150,9 @@ export default function App() {
               onOpenQRPairing={() => setIsQRPairingModalOpen(true)}
             />
           </>
-        ) : (
+        )}
+
+        {activeView === 'dashboard' && (
           /* Section 4: Reimagined User Dashboard & Settings (account.usafe.*) */
           <DashboardView
             currentRegion={currentRegion}
@@ -149,6 +164,28 @@ export default function App() {
             onOpenPasskeyModal={handleOpenSignIn}
             onOpenQRPairing={() => setIsQRPairingModalOpen(true)}
           />
+        )}
+
+        {activeView === 'admin' && (
+          /* Section 5: Tailwind Admin & Control Plane (admin.usafe.*) */
+          <AdminConsole currentRegion={currentRegion} />
+        )}
+
+        {activeView === 'api' && (
+          /* Section 2 & 3: REST / WSS APIs & SSO Interactive Playground (api.usafe.*) */
+          <ApiExplorer currentRegion={currentRegion} />
+        )}
+
+        {activeView === 'install' && (
+          /* Multi-Route Installation & Launcher Portal */
+          <div className="animate-in fade-in duration-200">
+            <AmberInstallRoutes
+              currentRegion={currentRegion}
+              onRegionChange={handleRegionChange}
+              onOpenPasskeyModal={handleOpenSignIn}
+              onOpenQRPairing={() => setIsQRPairingModalOpen(true)}
+            />
+          </div>
         )}
       </main>
 
@@ -190,6 +227,7 @@ export default function App() {
         onRegionChange={handleRegionChange}
         onOpenPasskeyModal={handleOpenSignIn}
         onOpenAppDrawer={() => setIsAppDrawerOpen(true)}
+        onNavigateView={(view) => setActiveView(view)}
       />
 
       {/* Cryptographic Toast Notification */}
